@@ -120,4 +120,4 @@ dist
 .vscode/*
 /.vscode
 
-git_commit_template.txt
+.git_commit_template.txt
