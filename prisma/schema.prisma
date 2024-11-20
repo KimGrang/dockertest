@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid()) @map("user_id")
+  user_name     String?        @map("username")
+  img_dir       String?        @map("img_dir")
+  email         String?        @map("email")
+  provider      String?        @map("provider")
+  reward        Int           @map("reward") @default(0)
+  level         Int           @map("level") @default(1)
+
+  wetsuits      Wetsuit[]
+  notifications Notification[]
+
+  @@map("user")
+}
+
+model Notification {
+  id          String   @id @default(uuid()) @map("notification_id")
+  user_id     String   @map("user_id")
+  message     String?   @map("message")
+  created_at  DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [user_id], references: [id])
+
+  @@map("notification")
+}
+
+model Wetsuit {
+  id          String   @id @default(uuid()) @map("wetsuit_id")
+  user_id     String   @map("user_id")
+  grade_id    String   @map("wetsuit_grade_id")
+  
+  user        User     @relation(fields: [user_id], references: [id])
+  grade       WetsuitGrade @relation(fields: [grade_id], references: [id])
+  pickups     Pickup[]
+
+  @@map("wetsuit")
+}
+
+model WetsuitGrade {
+  id          String   @id @default(uuid()) @map("wetsuit_grade_id")
+  level       String   @map("level")
+  detail      String   @map("detail")
+  img_dir     String?  @map("img_dir")
+
+  wetsuits    Wetsuit[]
+
+  @@map("wetsuit_grade")
+}
+
+model Pickup {
+  id              String    @id @default(uuid()) @map("pickup_id")
+  wetsuit_id      String    @map("wetsuit_id")
+  recipient       String    @map("recipient")
+  contact_number  String    @map("contact_number")
+  address         String    @map("address")
+  detail          String    @map("detail")
+  created_at      DateTime  @default(now()) @map("created_at")
+  status          String    @map("status")
+  finished_at     DateTime? @map("finished_at")
+  
+  wetsuit         Wetsuit   @relation(fields: [wetsuit_id], references: [id])
+
+  @@map("pickup")
+}

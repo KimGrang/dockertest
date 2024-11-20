@@ -1,0 +1,23 @@
+{
+  "name": "cheche_node_be",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "format": "prettier --write *.js **/*.js",
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "prisma": "^5.22.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.1"
+  }
+}
